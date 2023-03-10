@@ -2,33 +2,41 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
+import { Container } from '../components/sharedstyles'
 
 const Card = styled(({ className = '', image, value, suit, code }) => {
 return <div className={className + ' Card'}>
   <Image src={image} alt={code} width={226} height={314}/>
-  <p>{value} of {suit}</p>
 </div>
 })`
 border: none;
 padding: 0;
-margin: 0;
+margin: 1rem .5rem;
 width: 226px;
 height: 314px;
 display: inline-block;
 `
 
-const MatchedMessage = ({ className = '', leftCard, rightCard }) => {
+const MatchedMessage = styled(({ className = '', leftCard, rightCard }) => {
   const suitMessage = useMemo(() => {
     return leftCard.suit === rightCard.suit ? 'SNAP SUIT!' : ''
   }, [leftCard, rightCard])
   const valueMessage = useMemo(() => {
     return leftCard.value === rightCard.value ? 'SNAP VALUE!' : ''
   }, [leftCard, rightCard])
-  return <div className={className}>
+  return <div className={className + ' Messages'}>
     {suitMessage && (<p>{suitMessage}</p>)}
     {valueMessage && (<p>{valueMessage}</p>)}
   </div>
+})`
+
+position: absolute;
+top: 1.8rem;
+
+@media only screen and (min-width: 576px)  {
+top: 45%;
 }
+`
 
 const PickCard = ({ className = '', onPickCard, onEnded, onRemaining }) => {
   const [ended, setEnded] = useState(false)
@@ -74,6 +82,18 @@ const EndMessage = ({ className = '', suits, values }) => {
   </div>
 }
 
+const StyledCards = styled.div`
+display: flex;
+justify-content: space-between;
+flex-direction: column;
+align-items: center;
+width: 650px;
+max-width: 100vw;
+@media only screen and (min-width: 576px)  {
+  flex-direction: row;
+}
+`
+
 const App = ({ className = ''}) => {
   const [remaining, setRemaining] = useState(52)
   const [suits, setSuits] = useState([])
@@ -92,9 +112,11 @@ const App = ({ className = ''}) => {
     }
   }, [leftCard, rightCard])
 
-  return <div className={className}>
-    {leftCard && <Card className="LeftCard" {...leftCard}/>}
-    {rightCard && <Card className="RightCard"{...rightCard}/>}
+  return <Container className={className}>
+    <StyledCards>
+      {leftCard && <Card className="LeftCard" {...leftCard}/>}
+      {rightCard && <Card className="RightCard"{...rightCard}/>}
+    </StyledCards>
     {leftCard && rightCard && <MatchedMessage leftCard={leftCard} rightCard={rightCard}/>}
     <PickCard
     onPickCard={newCard => {
@@ -108,8 +130,8 @@ const App = ({ className = ''}) => {
     }}
     />
     {showEndMessage && <EndMessage suits={suits} values={values}/>}
-    {remaining} / 52 remaining
-  </div>
+    <p>{remaining ? remaining+' cards remaining' : 'Game ended'}</p>
+  </Container>
 
 }
 
