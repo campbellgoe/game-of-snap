@@ -4,12 +4,12 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { Container } from '../components/sharedstyles'
 
-const Card = styled(({ className = '', image, value, suit, code }) => {
+const Card = styled(({ className = '', image, code }) => {
 return <div className={className + ' Card'}>
-  <Image src={image} alt={code} width={226} height={314}/>
+  {image && <Image src={image} alt={code} width={226} height={314}/>}
 </div>
 })`
-border: none;
+border: ${({ image }) => image ? 'none' : '1px solid black'};
 padding: 0;
 margin: 1rem .5rem;
 width: 226px;
@@ -114,8 +114,8 @@ const App = ({ className = ''}) => {
 
   return <Container className={className}>
     <StyledCards>
-      {leftCard && <Card className="LeftCard" {...leftCard}/>}
-      {rightCard && <Card className="RightCard"{...rightCard}/>}
+      <Card className="LeftCard" {...leftCard}/>
+      <Card className="RightCard"{...rightCard}/>
     </StyledCards>
     {leftCard && rightCard && <MatchedMessage leftCard={leftCard} rightCard={rightCard}/>}
     <PickCard
