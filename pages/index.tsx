@@ -38,7 +38,7 @@ top: 45%;
 }
 `
 
-const PickCard = ({ className = '', onPickCard, onEnded, onRemaining }) => {
+const PickCard = styled(({ className = '', onPickCard, onEnded, onRemaining }) => {
   const [ended, setEnded] = useState(false)
   const [deckId, setDeckId] = useState('new')
   const handleFetchCard = useCallback(async () => {
@@ -71,7 +71,22 @@ const PickCard = ({ className = '', onPickCard, onEnded, onRemaining }) => {
       >Draw card</button>}
     </div>
   )
-}
+})`
+  button {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #4b28d6;
+    padding: 1rem 2rem;
+    border: 1px solid #6b4eff;
+    border-radius: 8px;
+    cursor: pointer;
+
+    :hover {
+      background-color: #6b4eff;
+    }
+  }
+`
 
 const EndMessage = ({ className = '', suits, values }) => {
   const totalSuits = suits.length
