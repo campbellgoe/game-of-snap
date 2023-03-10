@@ -5,6 +5,9 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  images: {
+    domains: ['deckofcardsapi.com']
+  },
 }
 
 module.exports = nextConfig
