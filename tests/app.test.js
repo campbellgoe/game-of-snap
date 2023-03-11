@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import PickCard from '../components/PickCard';
 import Card from '../components/Card';
+import MatchedMessage from '../components/MatchedMessage';
 
 describe("PickCard component", () => {
   it("should render a button with text \"Draw card\"", () => {
@@ -43,4 +44,29 @@ describe("Card component", () => {
     const image =  card.querySelector("img")
     expect(image).toBeInTheDocument()
   })
+})
+
+describe("MatchedMessage component", () => {
+  it("should not render if there is no match between two cards", ()=>{
+    render(<MatchedMessage leftCard={{ suit: 'Spades', value: "3" }} rightCard={{ suit: 'Diamonds', value: "4" }}/>)
+    const suitMessage = screen.queryByTestId('suit-message')
+    const valueMessage = screen.queryByTestId('value-message')
+    expect(suitMessage).not.toBeInTheDocument()
+    expect(valueMessage).not.toBeInTheDocument()
+  })
+
+  it("should render \"SNAP SUIT!\" if there is a match for suit between the two cards", ()=>{
+    render(<MatchedMessage leftCard={{ suit: 'Diamonds', value: "3" }} rightCard={{ suit: 'Diamonds', value: "4" }}/>)
+    const suitMessage = screen.queryByTestId('suit-message')
+    expect(suitMessage).toBeInTheDocument()
+    expect(suitMessage.textContent).toBe('SNAP SUIT!')
+  })
+
+  it("should render \"SNAP VALUE!\" if there is a match for value between the two cards", ()=>{
+    render(<MatchedMessage leftCard={{ suit: 'Hearts', value: "5" }} rightCard={{ suit: 'Clubs', value: "5" }}/>)
+    const valueMessage = screen.queryByTestId('value-message')
+    expect(valueMessage).toBeInTheDocument()
+    expect(valueMessage.textContent).toBe('SNAP VALUE!')
+  })
+
 })

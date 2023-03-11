@@ -9,8 +9,8 @@ const MatchedMessage = styled(({ className = '', leftCard, rightCard }) => {
     return leftCard.value === rightCard.value ? 'SNAP VALUE!' : ''
   }, [leftCard, rightCard])
   return <div className={className + ' Messages'}>
-    {suitMessage && (<p>{suitMessage}</p>)}
-    {valueMessage && (<p>{valueMessage}</p>)}
+    {suitMessage && (<p data-testid="suit-message">{suitMessage}</p>)}
+    {valueMessage && (<p data-testid="value-message">{valueMessage}</p>)}
   </div>
 })`
 
