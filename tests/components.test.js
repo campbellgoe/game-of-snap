@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import PickCard from '../components/PickCard';
 import Card from '../components/Card';
 import MatchedMessage from '../components/MatchedMessage';
+import EndMessage from '../components/EndMessage';
 
 describe("PickCard component", () => {
   it("should render a button with text \"Draw card\"", () => {
@@ -68,5 +69,14 @@ describe("MatchedMessage component", () => {
     expect(valueMessage).toBeInTheDocument()
     expect(valueMessage.textContent).toBe('SNAP VALUE!')
   })
+})
 
+describe("EndMessage component", ()=>{
+  it("should render the total VALUE and SUIT matches", () => {
+    render(<EndMessage totalSuits={14} totalValues={4}/>)
+    const valueMatches = screen.getByText('VALUE MATCHES: 4')
+    expect(valueMatches).toBeInTheDocument()
+    const suitMatches = screen.getByText('SUIT MATCHES: 14')
+    expect(suitMatches).toBeInTheDocument()
+  })
 })
